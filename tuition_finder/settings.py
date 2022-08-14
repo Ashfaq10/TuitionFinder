@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     'tuition',
     "users",
-    'home',
+    
 ]
 
 MIDDLEWARE = [
