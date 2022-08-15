@@ -10,27 +10,34 @@ class Subject(models.Model):
     subject = models.CharField(max_length=100)
 
 class Tuition(models.Model):
-    name = models.ForeignKey(USER_MODEL, on_delete= models.CASCADE)
+    provider = models.ForeignKey(USER_MODEL, on_delete= models.CASCADE, related_name='tuition_provided')
+    tutor = models.ForeignKey(USER_MODEL, on_delete= models.CASCADE, related_name="tution_tutored", null= True)
     location = models.CharField(max_length=100)
     level = models.ManyToManyField(Level)
     subject = models.ManyToManyField(Subject)
     requirements = models.TextField()
     salary = models.CharField(max_length=50)
 
-    
 
-# class Rating(models.Model):
-#     RATING_CHOICES = (
-#         ('1', '1 star'),
-#         ('2', '2 stars'),
-#         ('3', '3 stars'),
-#         ('4', '4 stars'),
-#         ('5', '5 stars'),
-#     )
-#     rating_value = models.IntegerField(
-#         choices = RATING_CHOICES
-#     )
-#     user = models.ForeignKey(USER_MODEL, on_delete= models.CASCADE)
+class Rating(models.Model):
+    RATING_CHOICES = (
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5'),
+    )
+    student_rating_value = models.IntegerField(
+        choices = RATING_CHOICES
+    )
+    tutor_rating_value = models.IntegerField(
+        choices = RATING_CHOICES
+    )
+    review = models.TextField()
+
+    tuition = models.ForeignKey(Tuition , on_delete= models.CASCADE)
+
+
 
 
 # Create your models here.
