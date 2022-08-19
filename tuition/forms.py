@@ -5,4 +5,7 @@ from tuition.models import Tuition
 class TuitionModelForm(ModelForm):
     class Meta:
         model = Tuition
-        fields = '__all__'
+        exclude = ['provider']
+
+
+

@@ -2,34 +2,28 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 
 from django.views import generic
 
-from .models import User
+from users.forms import UserUpdateForm
+from users.models import User
 
 
-
-# Create your views here.
 
 class ProfileView(generic.View):
     template_name = "users/profile.html"
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        return render(request, self.template_name, {'user': request.user})
 
 class LoginView(generic.View):
     template_name = 'users/login.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            if request.user.user_type == 'student':
-                return redirect('tuition:homepage_student')
-            else:
-                return redirect('tuition:homepage_tutor')
-
-
             
-
+            return redirect('tuition:homepage')
         return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
@@ -39,11 +33,7 @@ class LoginView(generic.View):
         if user is None:
             return render(request, self.template_name, {'error': 'Username/password Invalid'})
         login(request, user)
-
-        if request.user.user_type == 'student':
-            return redirect('tuition:homepage_student')
-        else:
-            return redirect('tuition:homepage_tutor')
+        return redirect('tuition:homepage')
 
 @login_required(login_url='users:login')
 def logoutView(request):
@@ -55,14 +45,14 @@ class RegistrationView(generic.View):
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-            if request.user.user_type == "student":
-                return redirect('tuition:homepage_student')
-            return redirect('tuition:homepage_tutor')
+            return redirect('tuition:homepage')
         return render(request, self.template_name)
 
     def post(self, request, *args, **kwargs):
         username = request.POST.get('username')
         password = request.POST.get('password')
+        phone = request.POST.get('phone')
+        location = request.POST.get('location')
         email = request.POST.get('email')
         first_name = request.POST.get('first_name')
         last_name = request.POST.get('last_name')
@@ -71,7 +61,8 @@ class RegistrationView(generic.View):
 
         try:
             user = User.objects.create_user(username=username, password=password,
-                                            email=email, first_name=first_name, last_name=last_name, user_type=user_type)
+                                            email=email, first_name=first_name, last_name=last_name, 
+                                            location= location,phone=phone, user_type=user_type)
             user.set_password(password)
             user.save()
 
@@ -81,13 +72,24 @@ class RegistrationView(generic.View):
 
         if user:
             login(request, user)
-            if user.user_type == "student":
-                return redirect('tuition:homepage_student')
-            return redirect('tuition:homepage_tutor')
+            
+            return redirect('tuition:homepage')
         return render(request, self.template_name, {'error': 'Unknown Error!'})
 
 class UpdateProfileView(generic.View):
     template_name = "users/update_profile.html"
 
+    form_class = UserUpdateForm
+    login_url = reverse_lazy('user:login')
+
+
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        form = self.form_class(instance=request.user)
+        return render(request, self.template_name, {'form': form})
+    
+    def post(self, request, *args, **kwargs):
+        form =  self.form_class(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('users:profile', username=request.user.username)
+        return render(request, self.template_name, {'form': form})

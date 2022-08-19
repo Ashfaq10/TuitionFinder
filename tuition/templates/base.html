@@ -21,18 +21,24 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-info">
 	<!-- Navbar content -->
-	<a class="navbar-brand" href="">Tuition Finder  System</a>
+	<a class="navbar-brand ms-4" href="">Tuition Finder  System</a>
 	 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse mx-3" id="navbarText">
     <ul class="navbar-nav me-auto ">
         <li class="nav-item active">
-            <a class="nav-link" href="">Home</a>
+            <a class="nav-link" href="{% url 'tuition:homepage' %}">Home</a>
         </li>		
 	  {% if request.user.is_authenticated %}
 	  <li class="nav-item active">
-        <a class="nav-link" href="">Dashboard</a>
+        <a class="nav-link" href="{% url 'users:profile' request.user %}">Profile</a>
+      </li>		  
+	  {% endif %}
+	  {% if request.user.is_authenticated and request.user.user_type == "student" %}
+		   
+	  <li class="nav-item active">
+        <a class="nav-link" href="{% url 'tuition:tuition_add' %}">Add Tuition</a>
       </li>		  
 	  {% endif %}
 		  
@@ -40,13 +46,16 @@
 	   {% if request.user.is_authenticated %}
 		<a href="{% url 'users:logout' %}" class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</a>	
 	   {% else %}
-		<a href="{% url 'users:registration' %}" class="btn btn-outline-light my-2 my-sm-0" type="submit">Register</a>
+		<a href="{% url 'users:registration' %}" class="btn btn-outline-light my-2 me-2 my-sm-0" type="submit">Register</a>
+
    		<a href="{% url 'users:login' %}" class="btn btn-outline-light my-2 my-sm-0 ml-2" type="submit">Login</a>
 	   {% endif %}
   </div>
 </nav>
+<div class="container">
 
-{% block content %}{% endblock content %}
+    {% block content %}{% endblock content %}
+</div>
 
 
 

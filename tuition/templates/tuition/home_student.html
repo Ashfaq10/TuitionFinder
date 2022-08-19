@@ -1,5 +1,43 @@
 {% extends 'base.html' %}
-
+{% load static %}
 {% block content %}
-    it's me Ashfaq. Home Student
+
+    <div class="mt-5">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+        {% for tutor in tutors %}
+          <div class="col">
+              <a href="{% url 'users:profile' tutor.username %}" class="text-decoration-none text-dark">
+            <div class="card h-100">
+                {% if user.photo %}
+                <img src="{{ user.photo.url }}"
+                  alt="Generic placeholder image" class="card-img-top">
+                {% else %}  
+                  <img src="{% static 'images/default_user_pic.png' %}"
+                  alt="Generic placeholder image" class="card-img-top">
+                {% endif %}
+              <!-- <img src="https://mdbcdn.b-cdn.net/img/new/standard/city/041.webp" class="card-img-top" alt="Hollywood Sign on The Hill"/> -->
+              
+              <div class="card-body">
+                <h5 class="card-title">{{tutor.first_name}} {{tutor.last_name}}</h5>
+                <p class="card-text mb-3">
+                  About: {{tutor.about | truncatechars:200}}
+                </p>
+                <p class="card-text mb-2">
+                    Phone: {{tutor.phone}}
+                </p>
+                <p class="card-text">
+                  Rating: {{tutor.rating}}
+              </p>
+  
+              </div>
+            </div>
+            </a> 
+          </div>
+          {% endfor %}
+        </div>
+  </div>
+
+
+    
+      
 {% endblock %}
