@@ -16,7 +16,7 @@ class User(AbstractUser):
     phone = models.CharField(max_length=15, null= True)
     location = models.CharField(max_length=100, null= True)
     about = models.TextField(null=True)
-    photo = models.ImageField(upload_to='media/images/profile_pictures/', null=True)
+    photo = models.ImageField(upload_to='media/images/profile_pictures/', null=True, blank=True)
     
     @property
     def rating(self):

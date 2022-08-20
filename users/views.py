@@ -92,4 +92,5 @@ class UpdateProfileView(generic.View):
         if form.is_valid():
             form.save()
             return redirect('users:profile', username=request.user.username)
+        print(form.errors)
         return render(request, self.template_name, {'form': form})
