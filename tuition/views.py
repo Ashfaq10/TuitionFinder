@@ -5,6 +5,7 @@ from tuition.forms import TuitionModelForm
 from users.models import User
 from tuition.models import Tuition
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # Create your views here.
@@ -21,7 +22,10 @@ class HomeTutorView(generic.View):
     
 
     def get(self, request, *args, **kwargs):
+        qs = request.GET.get('qs')
         tuitions =Tuition.objects.all()
+        if qs:
+            tuitions = tuitions.filter(location__icontains=qs)
         return render(request, self.template_name,{"tuitions":tuitions})
 
 class TuitionAdd(generic.CreateView):
@@ -44,11 +48,15 @@ class TuitionAdd(generic.CreateView):
 
 
 
-class TuitionDelete(generic.View):
-    template_name = "tuition/tuition_delete.html"
+class TuitionDelete(LoginRequiredMixin,generic.View):
+    login_url = reverse_lazy('users:login')
 
     def get(self, request, *args, **kwargs):
-        return render(request, self.template_name)
+        tuition = Tuition.objects.get(id=kwargs.get("id"))
+        username = tuition.provider.username
+        tuition.delete()
+        return redirect('users:profile', username=username)
+
 class TuitionUpdate(generic.View):
     template_name = "tuition/tuition_update.html"
     login_url = reverse_lazy('users:login')

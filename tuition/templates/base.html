@@ -14,7 +14,65 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 
 
-	{% block extrahead %}{% endblock extrahead %}		
+	{% block extrahead %}{% endblock extrahead %}	
+	<style>
+		@import url("https://fonts.googleapis.com/css2?family=Poppins:weight@100;200;300;400;500;600;700;800&display=swap");
+
+
+body{
+ background-color:#eee;
+ font-family: "Poppins", sans-serif;
+ font-weight: 300;
+}
+
+.height{
+ height: 100vh;
+}
+
+
+.search{
+position: relative;
+box-shadow: 0 0 40px rgba(51, 51, 51, .1);
+  
+}
+
+.search input{
+
+ height: 60px;
+ text-indent: 25px;
+ border: 2px solid #d6d4d4;
+
+
+}
+
+
+.search input:focus{
+
+ box-shadow: none;
+ border: 2px solid blue;
+
+
+}
+
+.search .fa-search{
+
+ position: absolute;
+ top: 20px;
+ left: 16px;
+
+}
+
+.search button{
+
+ position: absolute;
+ top: 5px;
+ right: 5px;
+ height: 50px;
+ width: 110px;
+ background: blue;
+
+}
+	</style>	
 </head>
 <body>
 
@@ -35,6 +93,7 @@
         <a class="nav-link" href="{% url 'users:profile' request.user %}">Profile</a>
       </li>		  
 	  {% endif %}
+	 
 	  {% if request.user.is_authenticated and request.user.user_type == "student" %}
 		   
 	  <li class="nav-item active">
@@ -52,7 +111,27 @@
 	   {% endif %}
   </div>
 </nav>
+{% if request.user.is_authenticated and request.user.user_type == "tutor" %}
+	<form method="get" action="{% url 'tuition:homepage_tutor' %}">
+		<div class="row d-flex justify-content-center align-items-center">
+
+			<div class="col-md-8">
+
+			<div class="search">
+				<i class="fa fa-search"></i>
+				<input name="qs" type="text" class="form-control" placeholder="Search Tuition">
+				<button class="btn btn-primary">Search</button>
+			</div>
+			
+			</div>
+			
+		</div>
+	</form>
+{% endif %}
 <div class="container">
+	
+
+	
 
     {% block content %}{% endblock content %}
 </div>

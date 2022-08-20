@@ -11,7 +11,7 @@
                     Tuition id: {{tuition.id}}
                 </div>
               <!-- <img src="https://mdbcdn.b-cdn.net/img/new/standard/city/041.webp" class="card-img-top" alt="Hollywood Sign on The Hill"/> -->
-              <div class="card-body">
+              <!-- <div class="card-body">
                 <h5 class="card-title">Posted by {{tuition.provider.first_name}} {{tuition.provider.last_name}}</h5>
                 <p class="card-text mb-3">
                   Requirements: {{tuition.requirements | truncatechars:200}}
@@ -25,7 +25,29 @@
               </p>
               
   
-              </div>
+              </div> -->
+             
+                  <div class="card-body">
+                  <h3 class="card-title">{{tuition.location}}</h3>
+                  <h6 class="card-title, text-muted mb-4">Posted by {{tuition.provider}}</h6>
+                  <p class="card-text">
+                  Requirements: {{tuition.requirements | truncatechars:100}}
+                  </p>
+                  <p class="card-text">
+                    Subject: {{tuition.subject}}
+                  </p>
+                  <p class="card-text">
+                  Class: {{tuition.level}}
+                  </p>
+                  <p class="card-text">
+                  Salary: {{tuition.salary}}
+                  </p>
+                  <p class="card-text">
+                    Phone Number: {{tuition.phone}}
+                  </p>
+                  
+                  
+                </div>
               <div class="card-footer text-muted">
                 Posted on {{ tuition.date_posted }}
               </div>

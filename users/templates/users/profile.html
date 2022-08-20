@@ -1,94 +1,145 @@
-{% extends 'base.html'%}
-{% load static %}
 
-{% block content %}
-<section class="h-100 gradient-custom-2">
-    <div class="container py-5 h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col col-lg-9 col-xl-7">
-          <div class="card">
-            <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
-              <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
-                {% if user.photo %}
-                <img src="{{ user.photo.url }}"
-                  alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
-                  style="width: 150px; z-index: 1;">
-                {% else %}  
-                  <img src="{% static 'images/default_user_pic.png' %}"
-                  alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
-                  style="width: 150px; z-index: 1;">
-                {% endif %}
-                  <a href="{% url 'users:update_profile' request.user.username %}" type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
-                  style="z-index: 1;">
-                  Edit profile
-              </a>
-              </div>
-              <div class="ms-3" style="margin-top: 130px;">
-                <h5>{{user.first_name}} {{user.last_name}}</h5>
-                <p>@{{user.username}}</p>
-              </div>
-            </div>
-            <div class="p-4 text-black" style="background-color: #f8f9fa;">
-              <div class="d-flex justify-content-end text-center py-1">
-                
-                <div>
-                  <p class="mb-1 h5">478</p>
-                  <p class="small text-muted mb-0">Following</p>
-                </div>
-              </div>
-            </div>
-            <div class="card-body p-4 text-black">
+  {% extends 'base.html'%}
+  {% load static %}
+
+
+  {% block content %}
+
+  <section style="background-color: #eee;">
+    <div class="container py-5">
+      <div class="row">
+        <div class="col">
+          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item active" aria-current="page">User Profile</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              {% if user.photo %}
+                  <img src="{{ user.photo.url }}"
+                    alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                    style="width: 150px; z-index: 1;">
+                  {% else %}  
+                    <img src="{% static 'images/default_user_pic.png' %}"
+                    alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                    style="width: 150px; z-index: 1;">
+                  {% endif %}
+              <h3 class="my-3">{{user.first_name}}</h3>
               <div class="mb-5">
                 <p class="lead fw-normal mb-1">About</p>
                 <div class="p-4" style="background-color: #f8f9fa;">
                   <p class="font-italic mb-1">{{user.about}}</p>
                 </div>
               </div>
-              {% if request.user.user_type == 'student' %}
-              <div class="d-flex justify-content-between align-items-center mb-4">
-                <p class="lead fw-normal mb-0">Tuitions I have Posted</p>
-                <!-- <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p> -->
+              <div class="d-flex justify-content-center mb-2">
+                <a href="{% url 'users:update_profile' request.user.username %}" type="button" class="btn btn-outline-dark" data-mdb-ripple-color="dark"
+                  style="z-index: 1;">
+                  Edit profile
+                </a>
               </div>
-              
-              {% for tuition in user.tuition_provided.all %}
-              <div class="col mx-auto">
-                  <div class="card mb-3">
-                    <div class="card-body">
-                    <h3 class="card-title">{{tuition.location}}</h3>
-                    <h6 class="card-title, text-muted mb-4">Posted by {{tuition.provider}}</h6>
-                    <p class="card-text">
-                     Requirements: {{tuition.requirements | truncatechars:500}}
-                    </p>
-                    <p class="card-text">
-                      Subject: {{tuition.subject}}
-                    </p>
-                    <p class="card-text">
-                     Class: {{tuition.level}}
-                    </p>
-                    <p class="card-text">
-                     Salary: {{tuition.salary}}
-                    </p>
-                    <p class="card-text">
-                      Phone Number: {{tuition.phone}}
-                    </p>
-                    
-                    
-                    <p class="card-text">
-                      <small class="text-muted">Posted on {{tuition.date_posted}}</small>
-                    </p>
-                    <a href="{% url 'tuition:tuition_update' tuition.id %}">
-                      Edit
-                      </a>
-                  </div>
-                </div>
-                </div>
-              {% endfor %}
-              {% endif %}
-                
             </div>
           </div>
+          
+        </div>
+        <div class="col-lg-8">
+          <div class="card mb-4">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Full Name</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{user.first_name}} {{user.last_name}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Email</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{user.email}}</p>
+                </div>
+              </div>
+              
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Mobile</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{user.phone}}</p>
+                </div>
+              </div>
+              <hr>
+              <div class="row">
+                <div class="col-sm-3">
+                  <p class="mb-0">Address</p>
+                </div>
+                <div class="col-sm-9">
+                  <p class="text-muted mb-0">{{user.location}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          
+              
+          <!-- </div> -->
+          <div class="card-body p-4 text-black">
+            {% if request.user.user_type == 'student' %}
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <p class="lead fw-normal mb-0">Tuitions I have Posted</p>
+              <!-- <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p> -->
+            </div>
+            
+            {% for tuition in user.tuition_provided.all %}
+            <div class="col mx-auto">
+                <div class="card mb-3">
+                  <div class="card-body">
+                  <h3 class="card-title">{{tuition.location}}</h3>
+                  <h6 class="card-title, text-muted mb-4">Posted by {{tuition.provider}}</h6>
+                  <p class="card-text">
+                  Requirements: {{tuition.requirements | truncatechars:500}}
+                  </p>
+                  <p class="card-text">
+                    Subject: {{tuition.subject}}
+                  </p>
+                  <p class="card-text">
+                  Class: {{tuition.level}}
+                  </p>
+                  <p class="card-text">
+                  Salary: {{tuition.salary}}
+                  </p>
+                  <p class="card-text">
+                    Phone Number: {{tuition.phone}}
+                  </p>
+                  
+                  
+                  <p class="card-text">
+                    <small class="text-muted">Posted on {{tuition.date_posted}}</small>
+                  </p>
+                    {% if request.user == tuition.provider %}
+                      <a href="{% url 'tuition:tuition_update' tuition.id %}"> Edit tuition</a>
+                      <span class="me-2"></span>
+                      <a href="{% url 'tuition:tuition_delete' tuition.id %}"> Delete tuition</a>
+                    {% endif %}
+                </div>
+              </div>
+              </div>
+            {% endfor %}
+            {% endif %}
+          </div>
+
         </div>
       </div>
     </div>
   </section>
-{% endblock %}
+
+  {% endblock %}
