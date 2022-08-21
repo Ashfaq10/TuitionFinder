@@ -20,7 +20,7 @@
 
 
 body{
- background-color:#eee;
+ background-color:#9A616D;
  font-family: "Poppins", sans-serif;
  font-weight: 300;
 }
@@ -90,7 +90,7 @@ box-shadow: 0 0 40px rgba(51, 51, 51, .1);
             <a class="nav-link" href="{% url 'tuition:homepage' %}">Home</a>
         </li>		
 	  <li class="nav-item active">
-        <a class="nav-link" href="{% url 'users:profile' request.user %}">Profile</a>
+        <a class="nav-link" href="{% url 'tuition:profile' request.user %}">Profile</a>
       </li>		  
 	  {% endif %}
 	 
@@ -103,11 +103,11 @@ box-shadow: 0 0 40px rgba(51, 51, 51, .1);
 		  
     </ul>
 	   {% if request.user.is_authenticated %}
-		<a href="{% url 'users:logout' %}" class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</a>	
+		<a href="{% url 'tuition:logout' %}" class="btn btn-outline-light my-2 my-sm-0" type="submit">Logout</a>	
 	   {% else %}
-		<a href="{% url 'users:registration' %}" class="btn btn-outline-light my-2 me-2 my-sm-0" type="submit">Register</a>
+		<a href="{% url 'tuition:registration' %}" class="btn btn-outline-light my-2 me-2 my-sm-0" type="submit">RegisterPage</a>
 
-   		<a href="{% url 'users:login' %}" class="btn btn-outline-light my-2 my-sm-0 ml-2" type="submit">Login</a>
+   		<a href="{% url 'tuition:login' %}" class="btn btn-outline-light my-2 my-sm-0 ml-2" type="submit">LoginPage</a>
 	   {% endif %}
   </div>
 </nav>

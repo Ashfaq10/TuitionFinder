@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, get_user_model, password_validatio
 from django.utils.translation import gettext_lazy as _
 
 
-from users.models import User
+from tuition.models.users_models import User
 
 
 class UserUpdateForm(ModelForm):

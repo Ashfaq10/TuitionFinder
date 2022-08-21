@@ -1,9 +1,9 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import generic
-from tuition.forms import TuitionModelForm
-from users.models import User
-from tuition.models import Tuition
+from tuition.utils.tuition_forms import TuitionModelForm
+from tuition.models.users_models import User
+from tuition.models.tuiton_models import Tuition
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -14,7 +14,7 @@ class HomeStudentView(generic.View):
     template_name = "tuition/home_student.html"
 
     def get(self, request, *args, **kwargs):
-        tutors= User.objects.all()
+        tutors= User.objects.filter(user_type='tutor')
         return render(request, self.template_name,{"tutors":tutors})
 
 class HomeTutorView(generic.View):
@@ -31,7 +31,7 @@ class HomeTutorView(generic.View):
 class TuitionAdd(generic.CreateView):
     template_name = "tuition/tuition_add.html"
     success_url = reverse_lazy("tuition:homepage")
-    login_url = reverse_lazy('users:login')
+    login_url = reverse_lazy('tutiton:login')
     redirect_field_name = 'tuition:homepage'
     form_class = TuitionModelForm
 
@@ -49,17 +49,17 @@ class TuitionAdd(generic.CreateView):
 
 
 class TuitionDelete(LoginRequiredMixin,generic.View):
-    login_url = reverse_lazy('users:login')
+    login_url = reverse_lazy('tuition:login')
 
     def get(self, request, *args, **kwargs):
         tuition = Tuition.objects.get(id=kwargs.get("id"))
         username = tuition.provider.username
         tuition.delete()
-        return redirect('users:profile', username=username)
+        return redirect('tuition:profile', username=username)
 
 class TuitionUpdate(generic.View):
     template_name = "tuition/tuition_update.html"
-    login_url = reverse_lazy('users:login')
+    login_url = reverse_lazy('tuition:login')
     form_class = TuitionModelForm
 
     def get_object(self):
@@ -73,7 +73,7 @@ class TuitionUpdate(generic.View):
         form =  self.form_class(request.POST, instance=self.get_object())
         if form.is_valid():
             form.save()
-            return redirect('users:profile', username=self.request.user)
+            return redirect('tuition:profile', username=self.request.user)
         # print(form.errors)
         return render(request, self.template_name, {'form': form})
 

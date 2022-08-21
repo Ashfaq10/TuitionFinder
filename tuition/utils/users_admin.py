@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 
 from django.contrib.auth.admin import UserAdmin
-from .models import User
+from ..models.users_models import User
 
 class CustomUserAdmin(UserAdmin):
     fieldsets = (

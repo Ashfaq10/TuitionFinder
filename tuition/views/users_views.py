@@ -6,8 +6,8 @@ from django.urls import reverse_lazy
 
 from django.views import generic
 
-from users.forms import UserUpdateForm
-from users.models import User
+from tuition.utils.users_forms import UserUpdateForm
+from tuition.models.users_models import User
 
 
 
@@ -35,10 +35,10 @@ class LoginView(generic.View):
         login(request, user)
         return redirect('tuition:homepage')
 
-@login_required(login_url='users:login')
+@login_required(login_url='tuition:login')
 def logoutView(request):
     logout(request)
-    return redirect('users:login')
+    return redirect('tuition:login')
 
 class RegistrationView(generic.View):
     template_name = 'users/registration.html'
@@ -91,6 +91,6 @@ class UpdateProfileView(generic.View):
         form =  self.form_class(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('users:profile', username=request.user.username)
+            return redirect('tuition:profile', username=request.user.username)
         print(form.errors)
         return render(request, self.template_name, {'form': form})

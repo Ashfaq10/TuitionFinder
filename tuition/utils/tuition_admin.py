@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from tuition.models import Tuition
+from tuition.models.tuiton_models import Tuition
 
 
 

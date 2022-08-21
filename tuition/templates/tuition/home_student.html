@@ -6,7 +6,7 @@
         <div class="row row-cols-1 row-cols-md-3 g-4">
         {% for tutor in tutors %}
           <div class="col">
-              <!-- <a href="{% url 'users:profile' tutor.username %}" class="text-decoration-none text-dark"> -->
+              <!-- <a href="{% url 'tuition:profile' tutor.username %}" class="text-decoration-none text-dark"> -->
             <div class="card h-100">
                 {% if user.photo %}
                 <img src="{{ user.photo.url }}"
