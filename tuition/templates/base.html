@@ -85,10 +85,10 @@ box-shadow: 0 0 40px rgba(51, 51, 51, .1);
   </button>
   <div class="collapse navbar-collapse mx-3" id="navbarText">
     <ul class="navbar-nav me-auto ">
+		{% if request.user.is_authenticated %}
         <li class="nav-item active">
             <a class="nav-link" href="{% url 'tuition:homepage' %}">Home</a>
         </li>		
-	  {% if request.user.is_authenticated %}
 	  <li class="nav-item active">
         <a class="nav-link" href="{% url 'users:profile' request.user %}">Profile</a>
       </li>		  
@@ -127,7 +127,7 @@ box-shadow: 0 0 40px rgba(51, 51, 51, .1);
 			
 		</div>
 	</form>
-{% endif %}
+	{% endif %}
 <div class="container">
 	
 

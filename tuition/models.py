@@ -22,24 +22,6 @@ class Tuition(models.Model):
     date_posted = models.DateField(auto_now_add=True)
 
 
-class Rating(models.Model):
-    RATING_CHOICES = (
-        ('1', '1'),
-        ('2', '2'),
-        ('3', '3'),
-        ('4', '4'),
-        ('5', '5'),
-    )
-    student_rating_value = models.IntegerField(
-        choices = RATING_CHOICES
-    )
-    tutor_rating_value = models.IntegerField(
-        choices = RATING_CHOICES
-    )
-    review = models.TextField()
-
-    tuition = models.ForeignKey(Tuition , on_delete= models.CASCADE)
-
 
 
 
