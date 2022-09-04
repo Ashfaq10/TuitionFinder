@@ -11,14 +11,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 class HomeStudentView(generic.View):
-    template_name = "tuition/home_student.html"
+    template_name = "tuition/home_student_template.html"
 
     def get(self, request, *args, **kwargs):
         tutors= User.objects.filter(user_type='tutor')
         return render(request, self.template_name,{"tutors":tutors})
 
 class HomeTutorView(generic.View):
-    template_name = "tuition/home_tutor.html"
+    template_name = "tuition/home_tutor_template.html"
     
 
     def get(self, request, *args, **kwargs):
@@ -29,7 +29,7 @@ class HomeTutorView(generic.View):
         return render(request, self.template_name,{"tuitions":tuitions})
 
 class TuitionAdd(generic.CreateView):
-    template_name = "tuition/tuition_add.html"
+    template_name = "tuition/tuition_add_template.html"
     success_url = reverse_lazy("tuition:homepage")
     login_url = reverse_lazy('tutiton:login')
     redirect_field_name = 'tuition:homepage'
@@ -58,7 +58,7 @@ class TuitionDelete(LoginRequiredMixin,generic.View):
         return redirect('tuition:profile', username=username)
 
 class TuitionUpdate(generic.View):
-    template_name = "tuition/tuition_update.html"
+    template_name = "tuition/tuition_update_template.html"
     login_url = reverse_lazy('tuition:login')
     form_class = TuitionModelForm
 

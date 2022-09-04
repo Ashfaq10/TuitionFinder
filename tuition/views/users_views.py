@@ -12,13 +12,13 @@ from tuition.models.users_models import User
 
 
 class ProfileView(generic.View):
-    template_name = "users/profile.html"
+    template_name = "users/profile_template.html"
 
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name, {'user': request.user})
 
 class LoginView(generic.View):
-    template_name = 'users/login.html'
+    template_name = 'users/login_template.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -41,7 +41,7 @@ def logoutView(request):
     return redirect('tuition:login')
 
 class RegistrationView(generic.View):
-    template_name = 'users/registration.html'
+    template_name = 'users/registration_template.html'
 
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -77,7 +77,7 @@ class RegistrationView(generic.View):
         return render(request, self.template_name, {'error': 'Unknown Error!'})
 
 class UpdateProfileView(generic.View):
-    template_name = "users/update_profile.html"
+    template_name = "users/update_profile_template.html"
 
     form_class = UserUpdateForm
     login_url = reverse_lazy('user:login')
